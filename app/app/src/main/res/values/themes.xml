@@ -1,0 +1,36 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.Bangull" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/blue</item>
+        <item name="colorSecondaryVariant">@color/blue</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@color/black</item>
+        <item name="colorControlHighlight">@color/highlight</item>
+    </style>
+
+    <!-- Font theme. -->
+    <style name="Font_Regular">
+        <item name="android:fontFamily">@font/notosans_regular</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+    <style name="Font_Thin">
+        <item name="android:fontFamily">@font/notosans_thin</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <!-- Custom theme. -->
+    <style name="BlueEditTextTheme" parent="Font_Thin">
+        <item name="android:theme">@style/BlueEditTextTheme</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@color/hint</item>
+        <item name="colorControlNormal">@color/shadow</item>
+    </style>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF181818</color>
+    <color name="blue">#FF2789E6</color>
+    <color name="highlight">#FF0F6FC9</color>
+    <color name="hint">#FF6F6F6F</color>
+    <color name="shadow">#1CFFFFFF</color>
+</resources>
