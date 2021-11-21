@@ -18,8 +18,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         binding.vm = LoginViewModel(UserRepository(this)).also {
-            it.salt.observe(this) {
-                startActivity(Intent(this, MainActivity::class.java).also { i -> i.putExtra("salt", it) })
+            it.login.observe(this) {
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
         }
