@@ -5,49 +5,32 @@
     <data>
         <variable
             name="vm"
-            type="com.devsung.bangull.viewmodels.LoginViewModel"/>
+            type="com.devsung.bangull.viewmodels.MainViewModel"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        tools:context=".LoginActivity">
-        <EditText
-            android:id="@+id/email"
-            android:hint="@string/email"
-            android:text="@={vm.email}"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp">
+        <TextView
+            android:text="@string/account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="10dp"
-            app:layout_constraintBottom_toTopOf="@id/password"
-            style="@style/BlueEditTextTheme"/>
-        <EditText
-            android:id="@+id/password"
-            android:hint="@string/password"
-            android:text="@={vm.password}"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:layout_marginBottom="25dp"
-            app:layout_constraintBottom_toTopOf="@id/login"
-            style="@style/BlueEditTextTheme"/>
+            app:layout_constraintBottom_toTopOf="@+id/logout"
+            style="@style/SettingTitleTextView"/>
         <LinearLayout
-            android:id="@+id/login"
+            android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="50dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{()->vm.login()}"
+            android:onClick="@{()->vm.logout()}"
             android:background="@drawable/blue_rect_round"
             app:layout_constraintBottom_toBottomOf="parent">
             <TextView
-                android:text="@string/login"
+                android:text="@string/logout"
                 android:textSize="@dimen/normal"
                 android:textColor="@android:color/white"
                 android:gravity="center"

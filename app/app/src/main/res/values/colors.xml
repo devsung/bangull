@@ -5,4 +5,5 @@
     <color name="highlight">#FF0F6FC9</color>
     <color name="hint">#FF6F6F6F</color>
     <color name="shadow">#1CFFFFFF</color>
+    <color name="title">#80FFFFFF</color>
 </resources>

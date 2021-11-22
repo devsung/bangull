@@ -5,19 +5,36 @@
     <data>
         <variable
             name="vm"
-            type="com.devsung.bangull.viewmodels.MainViewModel" />
+            type="com.devsung.bangull.viewmodels.MainViewModel"/>
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <!--
+            Switching to replace of FragmentTransaction causes lag,
+            so I solved it using 2 views
+        -->
+        <androidx.fragment.app.FragmentContainerView
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHeight_percent="0.78"
+            app:fragmentAnimation="@{!vm.animation}"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="0dp"
+            android:id="@+id/main_fragment"
+            android:name="com.devsung.bangull.MainFragment">
+        </androidx.fragment.app.FragmentContainerView>
+        <androidx.fragment.app.FragmentContainerView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintHeight_percent="0.78"
+            app:fragmentAnimation="@{vm.animation}"
+            android:visibility="invisible"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/setting_fragment"
+            android:name="com.devsung.bangull.SettingFragment">
+        </androidx.fragment.app.FragmentContainerView>
 
         <!-- Using 2 imageViews to show animations -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,8 +49,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:animation="@{!vm.animation}"
                 android:onClick="@{()->vm.setting()}"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_round_settings_48"
                 android:contentDescription="@string/setting">
             </ImageView>
@@ -45,8 +62,8 @@
                 app:animation="@{vm.animation}"
                 android:onClick="@{()->vm.setting()}"
                 android:visibility="invisible"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_round_clear_48"
                 android:contentDescription="@string/clear">
             </ImageView>

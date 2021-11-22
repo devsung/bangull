@@ -35,4 +35,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         else
             animation.set(!animation.get()!!)
     }
+
+    fun logout() {
+
+    }
 }
