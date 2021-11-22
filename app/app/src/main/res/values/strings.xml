@@ -5,4 +5,8 @@
     <string name="email">이메일</string>
     <string name="password">비밀번호</string>
     <string name="login">로그인</string>
+
+    <!-- main -->
+    <string name="setting">설정</string>
+    <string name="clear">뒤로 가기</string>
 </resources>
