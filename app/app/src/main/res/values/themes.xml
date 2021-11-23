@@ -40,4 +40,18 @@
         <item name="android:textSize">15sp</item>
         <item name="android:layout_marginBottom">15dp</item>
     </style>
+    <style name="SettingTextView" parent="Font_Thin">
+        <item name="android:theme">@style/SettingTextView</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
+    <style name="SettingWarning" parent="Font_Thin">
+        <item name="android:theme">@style/SettingWarning</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/highlight</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
 </resources>

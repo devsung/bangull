@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import com.devsung.bangull.data.SettingRepository
 import com.devsung.bangull.data.UserRepository
 import com.devsung.bangull.databinding.ActivityMainBinding
 import com.devsung.bangull.viewmodels.MainViewModel
@@ -19,7 +20,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.vm = ViewModelProvider(this, MainViewModelFactory(UserRepository(this)))
+        binding.vm = ViewModelProvider(this, MainViewModelFactory(
+            UserRepository(this),
+            SettingRepository(this)
+        ))
             .get(MainViewModel::class.java)
             .also {
                 it.login.observe(this) {

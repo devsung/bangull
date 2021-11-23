@@ -1,5 +1,7 @@
 package com.devsung.bangull.data
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import com.devsung.androidhelper.support.network.callback.Transport
 import com.devsung.androidhelper.support.network.connection.Connection
@@ -7,26 +9,30 @@ import com.devsung.androidhelper.support.parser.XML
 import com.devsung.androidhelper.support.security.hash.Hash
 import kotlinx.coroutines.*
 import java.net.URL
+import kotlin.concurrent.thread
 
 @ExperimentalCoroutinesApi
-class UserRepository(context: Context) : Repository(context) {
+class UserRepository(private val context: Context) : Repository(context) {
 
     var salt: String? = null
 
     private fun setUser(email: String, password: String) {
-        val sharedPreferences = getSharedPreferences("user")
-        sharedPreferences
-            .edit()
-            .putString("email", email)
-            .putString("password", password)
-            .apply()
+        thread {
+            val sharedPreferences = getSharedPreferences("user")
+            sharedPreferences
+                .edit()
+                .putString("email", email)
+                .putString("password", password)
+                .apply()
+        }
     }
 
     fun getUser(): User {
         val sharedPreferences = getSharedPreferences("user")
-        val email = sharedPreferences.getString("email", "").toString()
-        val password = sharedPreferences.getString("password", "").toString()
-        return User(email, password)
+        return User(
+            sharedPreferences.getString("email", "").toString(),
+            sharedPreferences.getString("password", "").toString()
+        )
     }
 
     suspend fun login(_email: String, _password: String): Boolean {
@@ -63,6 +69,20 @@ class UserRepository(context: Context) : Repository(context) {
             }
             return@async false
         }.await()
+    }
+
+    fun logout() {
+        AlertDialog.Builder(context, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+            .setTitle("로그아웃")
+            .setMessage("이 기기에서 로그아웃하시겠습니까?")
+            .setPositiveButton("확인") { _, _ ->
+                clearSharedPreferences("setting")
+                clearSharedPreferences("user")
+                (context as Activity).finish()
+            }
+            .setNegativeButton("취소", null)
+            .create()
+            .show()
     }
 
     private fun getHash(string: String): String =

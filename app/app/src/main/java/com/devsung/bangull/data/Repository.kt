@@ -24,6 +24,14 @@ open class Repository(private val context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
+    fun clearSharedPreferences(fileName: String) {
+        val sharedPreferences = getSharedPreferences(fileName)
+        sharedPreferences
+            .edit()
+            .clear()
+            .apply()
+    }
+
     fun showToast(string: String) = Toast.makeText(context, string, Toast.LENGTH_SHORT).show()
 
     fun isEmpty(string: String) = string == "null" || string == ""

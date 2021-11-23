@@ -11,7 +11,7 @@ class ViewBinding {
 
         private const val count = 4
 
-        private var ready = 0
+        var ready = 0
         private var leftRight = false
 
         @JvmStatic
