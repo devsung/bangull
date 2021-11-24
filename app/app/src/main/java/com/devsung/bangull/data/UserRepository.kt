@@ -8,21 +8,21 @@ import com.devsung.androidhelper.support.network.connection.Connection
 import com.devsung.androidhelper.support.parser.XML
 import com.devsung.androidhelper.support.security.hash.Hash
 import kotlinx.coroutines.*
+import java.io.File
 import java.net.URL
 import kotlin.concurrent.thread
 
 @ExperimentalCoroutinesApi
 class UserRepository(private val context: Context) : Repository(context) {
 
-    var salt: String? = null
-
-    private fun setUser(email: String, password: String) {
+    private fun setUser(email: String, password: String, salt: String) {
         thread {
             val sharedPreferences = getSharedPreferences("user")
             sharedPreferences
                 .edit()
                 .putString("email", email)
                 .putString("password", password)
+                .putString("salt", salt)
                 .apply()
         }
     }
@@ -31,7 +31,8 @@ class UserRepository(private val context: Context) : Repository(context) {
         val sharedPreferences = getSharedPreferences("user")
         return User(
             sharedPreferences.getString("email", "").toString(),
-            sharedPreferences.getString("password", "").toString()
+            sharedPreferences.getString("password", "").toString(),
+            sharedPreferences.getString("salt", "").toString()
         )
     }
 
@@ -62,8 +63,7 @@ class UserRepository(private val context: Context) : Repository(context) {
             when ((item[0] as Pair<*, *>).second.toString()) {
                 "0" -> showToast("해당 사용자를 찾을 수 없습니다.")
                 "1" -> {
-                    salt = (item[1] as Pair<*, *>).second.toString()
-                    setUser(email, password)
+                    setUser(email, password, (item[1] as Pair<*, *>).second.toString())
                     return@async true
                 }
             }
@@ -87,4 +87,10 @@ class UserRepository(private val context: Context) : Repository(context) {
 
     private fun getHash(string: String): String =
         Hash(string, "SHA-512").output.split("\n").joinToString("")
+
+    fun databaseUpdate() {
+        val filePath = "${context.filesDir.absolutePath}/${decode(getDatabaseFromJNI())}"
+        val file = File(filePath)
+        val user = getUser()
+    }
 }

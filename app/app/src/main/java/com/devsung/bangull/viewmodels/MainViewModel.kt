@@ -3,10 +3,7 @@ package com.devsung.bangull.viewmodels
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.devsung.bangull.data.SettingRepository
-import com.devsung.bangull.data.User
-import com.devsung.bangull.data.UserRepository
-import com.devsung.bangull.data.ViewBinding
+import com.devsung.bangull.data.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,8 +16,9 @@ class MainViewModel(
 ) : ViewModel() {
 
     private lateinit var user: User
-    private lateinit var salt: String
+    private var cancelRequest: Cancellable? = null
 
+    val text = MutableLiveData<String>()
     val login = MutableLiveData<Boolean>()
     val animation = ObservableField<Boolean>()
     val setting = MutableLiveData<ArrayList<Boolean>>()
@@ -31,8 +29,10 @@ class MainViewModel(
             user = userRepository.getUser()
             if (user.isEmpty() || !userRepository.loginLogic(user.email, user.password))
                 login.value = false
-            else
-                salt = userRepository.salt.toString()
+            else {
+                userRepository.databaseUpdate()
+                cancelRequest = settingRepository.requestPermission()
+            }
         }
         setting.value = settingRepository.getSetting()
     }
@@ -47,4 +47,9 @@ class MainViewModel(
     fun setting() = settingRepository.setSetting(setting.value!!)
 
     fun logout() = userRepository.logout()
+
+    override fun onCleared() {
+        super.onCleared()
+        cancelRequest?.invoke()
+    }
 }

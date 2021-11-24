@@ -18,10 +18,10 @@
         -->
         <androidx.fragment.app.FragmentContainerView
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintHeight_percent="0.78"
             app:fragmentAnimation="@{!vm.animation}"
+            android:visibility="@{!vm.animation}"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:id="@+id/main_fragment"
             android:name="com.devsung.bangull.MainFragment">
         </androidx.fragment.app.FragmentContainerView>
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintHeight_percent="0.78"
             app:fragmentAnimation="@{vm.animation}"
-            android:visibility="invisible"
+            android:visibility="@{vm.animation}"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:id="@+id/setting_fragment"

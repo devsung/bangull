@@ -40,7 +40,6 @@ class ViewBinding {
                     if (bool) 100f else 0.0f,
                     if (bool) 0.0f else 100f))
                 duration = 300
-                fillAfter = true
             })
         }
 
@@ -57,6 +56,12 @@ class ViewBinding {
                     }
                 })
             })
+        }
+
+        @JvmStatic
+        @BindingAdapter("android:visibility")
+        fun setVisibility(view: View, value: Boolean) {
+            view.visibility = if (value) View.VISIBLE else View.GONE
         }
     }
 }

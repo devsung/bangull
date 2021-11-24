@@ -33,6 +33,11 @@
         <item name="android:textColorHint">@color/hint</item>
         <item name="colorControlNormal">@color/shadow</item>
     </style>
+    <style name="MainCircleTextView" parent="Font_Regular">
+        <item name="android:theme">@style/MainCircleTextView</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">35sp</item>
+    </style>
     <style name="SettingTitleTextView" parent="Font_Thin">
         <item name="android:theme">@style/SettingTitleTextView</item>
         <item name="android:gravity">center</item>

@@ -1,10 +1,12 @@
 package com.devsung.bangull.data
 
+import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import kotlin.concurrent.thread
 
-class SettingRepository(context: Context) : Repository(context) {
+class SettingRepository(private val context: Context) : Repository(context) {
 
     fun setSetting(array: ArrayList<Boolean>) {
         thread {
@@ -29,4 +31,21 @@ class SettingRepository(context: Context) : Repository(context) {
 
     private fun getBoolean(sharedPreferences: SharedPreferences, key: String, def: Boolean) =
         sharedPreferences.getBoolean(key, def)
+
+    fun requestPermission(): Cancellable {
+        val permission = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_CALL_LOG
+        )
+        var granted = 0
+        permission.forEach { p ->
+            if (context.checkSelfPermission(p) == PackageManager.PERMISSION_GRANTED)
+                granted++
+        }
+        return if (granted != permission.size)
+            PermissionRequester.requestPermissions(context, *permission) { }
+        else { { } }
+    }
 }

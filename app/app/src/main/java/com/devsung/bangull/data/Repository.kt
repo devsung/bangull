@@ -41,4 +41,6 @@ open class Repository(private val context: Context) {
     fun decode(url: String) = String(Base64.decode(url, Base64.DEFAULT))
 
     external fun getLoginUrlFromJNI(): String
+
+    external fun getDatabaseFromJNI(): String
 }
