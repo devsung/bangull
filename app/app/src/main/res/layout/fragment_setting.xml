@@ -24,7 +24,7 @@
                 android:text="@string/call"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/SettingTitleTextView"/>
+                style="@style/TitleTextView"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:text="@string/sw_voice"
                 android:layout_width="match_parent"
@@ -53,7 +53,7 @@
                 android:text="@string/door"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/SettingTitleTextView"/>
+                style="@style/TitleTextView"/>
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:text="@string/sw_door"
                 android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                 android:text="@string/account"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/SettingTitleTextView"/>
+                style="@style/TitleTextView"/>
             <LinearLayout
                 android:id="@+id/logout"
                 android:layout_width="match_parent"

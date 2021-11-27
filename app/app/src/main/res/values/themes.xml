@@ -38,8 +38,8 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">35sp</item>
     </style>
-    <style name="SettingTitleTextView" parent="Font_Thin">
-        <item name="android:theme">@style/SettingTitleTextView</item>
+    <style name="TitleTextView" parent="Font_Thin">
+        <item name="android:theme">@style/TitleTextView</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/title</item>
         <item name="android:textSize">15sp</item>
@@ -58,5 +58,12 @@
         <item name="android:textColor">@color/highlight</item>
         <item name="android:textSize">12sp</item>
         <item name="android:layout_marginTop">5dp</item>
+    </style>
+    <style name="CustomerTextView" parent="Font_Regular">
+        <item name="android:theme">@style/CustomerTextView</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textColor">@color/highlight</item>
+        <item name="android:layout_marginBottom">15dp</item>
     </style>
 </resources>

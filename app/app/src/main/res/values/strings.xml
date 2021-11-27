@@ -19,4 +19,9 @@
     <string name="sw_door">가게 출입 알람</string>
     <string name="warning">※ 일부 계정만 사용 가능한 기능입니다.</string>
     <string name="logout">로그아웃</string>
+
+    <!-- customer -->
+    <string name="name">이름</string>
+    <string name="order">주문</string>
+    <string name="address">주소</string>
 </resources>

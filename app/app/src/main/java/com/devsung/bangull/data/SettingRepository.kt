@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.widget.Toast
 import kotlin.concurrent.thread
 
 class SettingRepository(private val context: Context) : Repository(context) {
@@ -45,7 +46,15 @@ class SettingRepository(private val context: Context) : Repository(context) {
                 granted++
         }
         return if (granted != permission.size)
-            PermissionRequester.requestPermissions(context, *permission) { }
+            PermissionRequester.requestPermissions(context, *permission) {
+                var isGranted = true
+                it.forEach { permission ->
+                    if (permission.state != State.GRANTED)
+                        isGranted = false
+                }
+                if (!isGranted)
+                    Toast.makeText(context, "앱 권한 설정에 모두 동의해주세요.", Toast.LENGTH_SHORT).show()
+            }
         else { { } }
     }
 }

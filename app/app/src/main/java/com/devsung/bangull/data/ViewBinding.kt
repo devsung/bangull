@@ -2,8 +2,12 @@ package com.devsung.bangull.data
 
 import android.view.View
 import android.view.animation.*
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.devsung.bangull.R
 import com.devsung.bangull.adapter.AnimationAdapter
+import com.devsung.bangull.views.GifDrawableImageViewTarget
 
 class ViewBinding {
 
@@ -57,6 +61,11 @@ class ViewBinding {
                 })
             })
         }
+
+        @JvmStatic
+        @BindingAdapter("gif")
+        fun setGif(view: View, value: Boolean) =
+            Glide.with(view).load(R.raw.logo).into(GifDrawableImageViewTarget(view as ImageView, 1))
 
         @JvmStatic
         @BindingAdapter("android:visibility")

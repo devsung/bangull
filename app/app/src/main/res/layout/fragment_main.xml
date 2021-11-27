@@ -16,6 +16,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="@{()->vm.service()}"
             android:background="@drawable/circle_blue"
             android:layout_width="210dp"
             android:layout_height="210dp">

@@ -42,5 +42,5 @@ open class Repository(private val context: Context) {
 
     external fun getLoginUrlFromJNI(): String
 
-    external fun getDatabaseFromJNI(): String
+    external fun getDatabaseUrlFromJNI(): String
 }
