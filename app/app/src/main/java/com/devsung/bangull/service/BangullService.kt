@@ -72,23 +72,14 @@ class BangullService : LifecycleService() {
     }
 
     private fun callEvent(voice: Boolean, popup: Boolean) {
-        (this.getSystemService(TELEPHONY_SERVICE) as TelephonyManager).listen(object : PhoneStateListener() {
+        val manager = (this.getSystemService(TELEPHONY_SERVICE) as TelephonyManager)
+        manager.listen(object : PhoneStateListener() {
             override fun onCallStateChanged(state: Int, phoneNumber: String) {
-                when (state) {
-                    TelephonyManager.CALL_STATE_RINGING -> {
-                        val path = "${UserRepository(applicationContext).getUser().salt}.db"
-                        SQLite(applicationContext, path).getCustomer(phoneNumber)?.let {
-                            if (voice) speakTTS(it.name)
-                            if (popup) showPopup(it)
-                        }
-                    }
-                    TelephonyManager.CALL_STATE_IDLE,
-                    TelephonyManager.CALL_STATE_OFFHOOK -> {
-                        tts?.stop()
-                        tts?.shutdown()
-                        tts = null
-                        (applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
-                            .cancel(idCall)
+                if (state == TelephonyManager.CALL_STATE_RINGING) {
+                    val path = "${UserRepository(applicationContext).getUser().salt}.db"
+                    SQLite(applicationContext, path).getCustomer(phoneNumber)?.let {
+                        if (voice) speakTTS(it.name)
+                        if (popup) showPopup(it)
                     }
                 }
             }
@@ -106,12 +97,30 @@ class BangullService : LifecycleService() {
                 }
             }
         }
+        val timer = Timer()
+        timer.schedule(object: TimerTask() {
+            override fun run() {
+                val manager = (getSystemService(TELEPHONY_SERVICE) as TelephonyManager)
+                if (manager.callState == TelephonyManager.CALL_STATE_IDLE ||
+                    manager.callState ==TelephonyManager.CALL_STATE_OFFHOOK) {
+                    tts?.stop()
+                    tts?.shutdown()
+                    tts = null
+                    timer.cancel()
+                }
+            }
+        }, 500, 500)
     }
 
     private fun showPopup(customer: Customer) {
+        val builder =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                NotificationCompat.Builder(this, channelIdCall)
+            else
+                NotificationCompat.Builder(this)
         createNotificationChannel(channelIdCall, "전화", true)
         (applicationContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
-            .notify(idCall, NotificationCompat.Builder(this, channelIdCall)
+            .notify(idCall, builder
                 .setContentTitle("${customer.name}님에게 전화가 왔습니다.")
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setDefaults(Notification.DEFAULT_ALL)
