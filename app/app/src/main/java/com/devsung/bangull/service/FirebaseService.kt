@@ -5,12 +5,15 @@ import android.content.ClipboardManager
 import android.media.MediaPlayer
 import android.os.Handler
 import android.os.Looper
+import android.telephony.TelephonyManager
 import android.widget.Toast
 import com.devsung.bangull.R
 import com.devsung.bangull.data.SettingRepository
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 class FirebaseService : FirebaseMessagingService() {
 
     override fun onNewToken(p0: String) {
@@ -24,7 +27,10 @@ class FirebaseService : FirebaseMessagingService() {
 
     override fun onMessageReceived(p0: RemoteMessage) {
         val setting = SettingRepository(applicationContext).getSetting()[2]
-        if (setting) {
+        val manager = (getSystemService(TELEPHONY_SERVICE) as TelephonyManager)
+        if (setting &&
+            BangullService.isAlive &&
+            manager.callState == TelephonyManager.CALL_STATE_IDLE) {
             MediaPlayer.create(applicationContext, R.raw.door).apply {
                 setOnCompletionListener { this.release() }
                 start()
