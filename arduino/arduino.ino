@@ -1,41 +1,43 @@
-#include <SoftwareSerial.h>
+#include <ESP8266WiFi.h>
 
-#define BT_RXD 2
-#define BT_TXD 3
-#define LED 13
+#ifndef STASSID
+#define STASSID ""
+#define STAPSK  ""
+#endif
+
+const char* ssid     = STASSID;
+const char* password = STAPSK;
 
 String serial = "";
-String ssid = "";
-String password = "";
+const char* host = "";
+String url = "";
+const uint16_t port = 80;
+
 int sensor = A0;
 
-String server = "";
-String url = "";
-
-SoftwareSerial ESP_wifi(BT_RXD, BT_TXD);
-
 void setup() {
-  Serial.begin(9600);
-  ESP_wifi.begin(9600);
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+  }
   pinMode(sensor, INPUT);
-  pinMode(LED, OUTPUT);
-  delay(1000);
-  ESP_wifi.println("AT+CWJAP=\"" + ssid + "\",\"" + password + "\"");
-  while (!ESP_wifi.find("OK")) { }
-  delay(1000);
-  digitalWrite(13, HIGH);
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void loop() {
-  int Sound = analogRead(sensor);
-  if (Sound >= 1000) {
-    digitalWrite(13, LOW);
-    ESP_wifi.println(server);
-    delay(1000);
-    ESP_wifi.println("AT+CIPSEND=39");
-    ESP_wifi.println(url);
-    delay(1000);
-    digitalWrite(13, HIGH);
+  WiFiClient client;
+  if (client.connect(host, port)) {
+    int sound = analogRead(sensor);
+    if (sound >= 1000) {
+      digitalWrite(LED_BUILTIN, HIGH);
+      client.println(url);
+      delay(1000);
+      digitalWrite(LED_BUILTIN, LOW);
+    }
   }
+  client.stop();
   delay(10);
 }
